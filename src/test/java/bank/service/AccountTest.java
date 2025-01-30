@@ -23,10 +23,15 @@ public class AccountTest  {
 
     @Test
     public void acceptanceTest(){
+        var expectedOutput ="Date       || Amount || Balance\n" +
+                "14/01/2012 || -500   || 2500\n" +
+                "13/01/2012 || 2000   || 3000\n" +
+                "10/01/2012 || 1000   || 1000\n";
+
+
         LocalDate fixedDate1 = LocalDate.of(2012, 1, 10);
         LocalDate fixedDate2 = LocalDate.of(2012, 1, 13);
         LocalDate fixedDate3 = LocalDate.of(2012, 1, 14);
-
         try (MockedStatic<LocalDate> mockedLocalDate = Mockito.mockStatic(LocalDate.class)) {
             mockedLocalDate.when(LocalDate::now)
                     .thenReturn(fixedDate1)
@@ -39,10 +44,6 @@ public class AccountTest  {
             account.withdraw(500);
             account.printStatement();
 
-            var expectedOutput ="Date       || Amount || Balance\n" +
-                    "14/01/2012 || -500   || 2500\n" +
-                    "13/01/2012 || 2000   || 3000\n" +
-                    "10/01/2012 || 1000   || 1000\n";
             Assertions.assertEquals(expectedOutput,  statement.toString(), "failure - strings are not equal");
         }
     }
